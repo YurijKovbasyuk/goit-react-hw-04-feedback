@@ -1,0 +1,9 @@
+.counter {
+  width: 230px;
+  padding-left: 5px;
+  font-size: 20px;
+}
+.counter li {
+  display: flex;
+  justify-content: space-between;
+}

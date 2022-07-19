@@ -1,0 +1,14 @@
+.button button {
+  min-width: 100px;
+  padding: 5px;
+  margin-left: 15px;
+  border-radius: 10px;
+  border: none;
+  background-color: aqua;
+  cursor: pointer;
+  scale: 1.3px;
+}
+
+.button button:hover {
+  transform: scale(1.2);
+}
