@@ -1,51 +1,57 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import css from 'components/section/section.module.css';
 import FeedbackOptions from 'components/FeedbackOptions/feedbackOptions';
 import Statistics from 'components/statistics/statistics';
 import Notification from 'components/notification/notification';
 
-class Section extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+function Section() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const handleBtnClick = e => {
+    const type = e;
+
+    switch (type) {
+      case 'good':
+        setGood(good + 1);
+        break;
+
+      case 'neutral':
+        setNeutral(neutral + 1);
+        break;
+
+      case 'bad':
+        setBad(bad + 1);
+        break;
+
+      default:
+        return;
+    }
   };
 
-  handleBtnClick = type => {
-    this.setState(prevState => {
-      return { [type]: prevState[type] + 1 };
-    });
-  };
-
-  totalCount = () => {
-    const { good, neutral, bad } = this.state;
+  const totalCount = () => {
     return good + neutral + bad;
   };
 
-  options = Object.keys(this.state);
+  const options = ['good', 'neutral', 'bad'];
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    return (
-      <div>
-        <p className={css}>Please leave feedback</p>
-        <FeedbackOptions
-          onBtnClick={this.handleBtnClick}
-          options={this.options}
+  return (
+    <div>
+      <p className={css}>Please leave feedback</p>
+      <FeedbackOptions onBtnClick={handleBtnClick} options={options} />
+      {totalCount() === 0 ? (
+        <Notification message={'There is no feedback'} />
+      ) : (
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={totalCount}
         />
-        {this.totalCount() === 0 ? (
-          <Notification message={'There is no feedback'} />
-        ) : (
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={this.totalCount}
-          />
-        )}
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }
 
 export default Section;
